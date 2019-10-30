@@ -1,0 +1,19 @@
+-#  This file is app/views/movies/show_similar_page.html.haml
+%h2 #{@movie.title}
+
+%table#movies.table.table-striped.col-md-12
+  %thead
+    %tr
+      %th Title
+      %th Rating
+      %th Realse Date
+      %th Director
+  %tbody
+    - @movies.each do |m|
+      %tr
+        %td= m.title
+        %td= m.rating
+        %td= m.release_date
+        %td= m.director
+
+= link_to 'Add new movie', new_movie_path

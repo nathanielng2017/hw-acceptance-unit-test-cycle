@@ -1,13 +1,28 @@
 class MoviesController < ApplicationController
 
   def movie_params
-    params.require(:movie).permit(:title, :rating, :description, :release_date)
+    params.require(:movie).permit(:title, :rating, :description, :release_date, :director)
   end
 
   def show
     id = params[:id] # retrieve movie ID from URI route
     @movie = Movie.find(id) # look up movie by unique ID
     # will render app/views/movies/show.<extension> by default
+  end
+
+  def show_similar_page
+    @movie = Movie.find params[:id]
+    director = @movie.director
+    if director.nil? || director == "" then
+      flash[:not_found] = "'#{@movie.title}' has no director info"
+      # puts "no director"
+      redirect_to movies_path
+      return
+    else
+      # puts "director"
+      @movies = Movie.where(director: director)
+    end
+
   end
 
   def index
